@@ -63,11 +63,22 @@ func (l* List[T]) IsEmpty() bool {
 	return l.head == nil
 }
 
+func (l* List[T]) Len() int {
+	length := 0
+	curr := l.head
+	for curr != nil {
+		length++
+		curr = curr.next
+	}
+	return length
+}
+
 func main() {
 	l := &List[string]{}
 	l.Append("hello")
 	l.Append("world")
 	l.PrintList()
+	fmt.Println("Length: ", l.Len())
 	l.Remove("hello")
 	
 	l.Append("this")
@@ -76,6 +87,7 @@ func main() {
 	l.Append("test")
 	l.Remove("a")
 	l.PrintList()
+	fmt.Println("Length: ", l.Len())
 	
 	l2 := &List[string]{}
 	l2.PrintList()
