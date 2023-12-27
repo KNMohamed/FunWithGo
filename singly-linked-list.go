@@ -6,11 +6,11 @@ import (
 
 // List represents a singly-linked list that holds
 // values of any type.
-type List[T any] struct {
+type List[T comparable] struct {
 	head *Node[T]
 }
 
-type Node[T any] struct {
+type Node[T comparable] struct {
 	next *Node[T]
 	val T
 }
@@ -39,10 +39,38 @@ func (l *List[T]) PrintList() {
 	fmt.Println("nil")
 }
 
+func (l *List[T]) Remove(val T) {
+	//Case when list is empty
+	if l.head == nil {
+		return
+	}
+	//Case when found at beginning of list
+	if l.head.val == val {
+		l.head = l.head.next
+		return
+	}	
+	curr := l.head
+	for curr.next != nil {
+		if curr.next.val == val {
+			curr.next = curr.next.next
+			return
+		}
+		curr = curr.next
+	}
+}
+
 func main() {
 	l := &List[string]{}
 	l.Append("hello")
 	l.Append("world")
+	l.PrintList()
+	l.Remove("hello")
+	
+	l.Append("this")
+	l.Append("is")
+	l.Append("a")
+	l.Append("test")
+	l.Remove("a")
 	l.PrintList()
 	
 	l2 := &List[string]{}
