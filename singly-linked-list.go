@@ -59,6 +59,10 @@ func (l *List[T]) Remove(val T) {
 	}
 }
 
+func (l* List[T]) IsEmpty() bool {
+	return l.head == nil
+}
+
 func main() {
 	l := &List[string]{}
 	l.Append("hello")
