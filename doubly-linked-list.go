@@ -66,6 +66,9 @@ func (l *List[T]) InsertAfter(node *Node[T], data T) {
 	for curr != nil {
 		next := curr.next
 		if curr.val == data {
+			if curr == l.tail {
+				l.tail = node
+			}
 			curr.next = node
 			node.prev = curr
 			node.next = next
@@ -78,13 +81,36 @@ func (l *List[T]) InsertAfter(node *Node[T], data T) {
 	}
 }
 
+func (l *List[T]) InsertBefore(node *Node[T], data T) {
+	curr := l.tail
+	for curr != nil {
+		before := curr.prev
+		if curr.val == data {
+			if curr == l.head {
+				l.head = node
+			}
+			node.next = curr
+			curr.prev = node
+			node.prev = before
+			if before != nil {
+				before.next = node
+			}
+			break
+		} 
+		curr = before
+	}
+}
+
 func main() {
 	l := &List[string]{}
 	l.PushFront("is")
 	l.PushBack("a")
 	l.PushBack("test")
-	l.PushFront("this")
+
+	newNode := &Node[string]{val: "this"}
+	l.InsertBefore(newNode, "is")
 	l.PrintListForward()
+	
 	l.PushBack("to")
 	l.PushBack("determine")
 	l.PushBack("the")
@@ -92,7 +118,7 @@ func main() {
 	l.PushBack("order")
 	l.PrintListForward()
 
-	newNode := &Node[string]{val: "print"}
+	newNode = &Node[string]{val: "print"}
 	l.InsertAfter(newNode, "correct")
 	l.PrintListForward()
 	l.PrintListBackwards()
